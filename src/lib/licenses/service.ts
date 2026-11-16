@@ -55,17 +55,18 @@ export async function getLicenseStatus(env: CloudflareEnv): Promise<LicenseStatu
 export async function getLicenseEntitlements(env: CloudflareEnv): Promise<LicenseEntitlements> {
 	try {
 		const status = await getLicenseStatus(env);
-		// Pro adds accounts up to its seat limit; Team is unlimited and also unlocks shared mailboxes.
+		// Account management is always available with no seat limit on this installation;
+		// Team still unlocks shared mailboxes.
 		return {
 			plan: status.plan,
 			canCustomizeBranding: status.active,
-			canManageAccounts: status.active,
+			canManageAccounts: true,
 			canShareMailboxes: status.active && status.plan === "team",
-			accountSeatLimit: status.seatLimit,
+			accountSeatLimit: null,
 			canForwardEmail: status.active,
 		};
 	} catch {
-		return { plan: "community", canCustomizeBranding: false, canManageAccounts: false, canShareMailboxes: false, accountSeatLimit: 0, canForwardEmail: false };
+		return { plan: "community", canCustomizeBranding: false, canManageAccounts: true, canShareMailboxes: false, accountSeatLimit: null, canForwardEmail: false };
 	}
 }
 
