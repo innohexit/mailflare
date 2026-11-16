@@ -80,10 +80,7 @@
 		},
 	],
 	"r2_buckets": [
-		{
-			"binding": "BUCKET",
-			"bucket_name": "mailflare-raw",
-		},
+		
 	],
 	"queues": {
 		"producers": [
